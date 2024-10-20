@@ -1,0 +1,180 @@
+.SignIn {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .content {
+      margin-left: 310px;
+      display: flex;
+      justify-content: center;
+      @media (max-width: 800px) {
+        margin-left: 0px;
+      }
+      .two {
+        @media (max-width: 800px) {
+          display: none;
+        }
+        .photo {
+          position: relative;
+          margin-left: -300px;
+          margin-top: 20px;
+          img {
+            position: absolute;
+            width: 260px;
+            height: 550px;
+          }
+          .iphone {
+            position: absolute;
+            top: -20px;
+            left: -18px;
+            width: 295px;
+            height: 590px;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+      .three {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        .auth {
+          width: 350px;
+          height: 420px;
+          border: 1px solid grey;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          .instagram {
+            padding: 20px 0 20px 0;
+          }
+          .form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            input {
+              width: 280px;
+              height: 35px;
+              background: transparent;
+              padding: 0 10px;
+              border: 0.5px solid grey;
+              border-radius: 3px;
+              outline: none;
+              font-size: 12px;
+            }
+            button {
+              width: 100%;
+              height: 35px;
+              border-radius: 10px;
+              background: #0069ad;
+              border: none;
+              font-weight: 600;
+              font-size: 15px;
+              margin-top: 10px;
+              color: rgb(206, 202, 202);
+              cursor: pointer;
+            }
+          }
+          .block {
+            width: 280px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            .line {
+              width: 100%;
+              height: 1.5px;
+              background: #3d3c3c;
+            }
+            h1 {
+              font-size: 18px;
+              color: #bbb4b4;
+              font-weight: 500;
+            }
+          }
+          .fecebook {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+  
+            span {
+              color: #3897f0;
+              font-size: 30px;
+            }
+            a {
+              font-size: 15px;
+              color: #3897f0;
+            }
+            &:hover {
+              a {
+                color: white;
+              }
+            }
+          }
+          h3 {
+            font-size: 12px;
+            color: #cdc6c6;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 500;
+          }
+        }
+        .acaunt1 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 350px;
+          height: 50px;
+          border: 1px solid grey;
+          h1 {
+            font-size: 14px;
+            font-weight: 400;
+          }
+          a {
+            color: #3897f0;
+            cursor: pointer;
+          }
+        }
+        h1 {
+          font-size: 14px;
+        }
+        .acaunt2 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          .google_play {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            font-size: 12px;
+            h2 {
+              color: white;
+            }
+          }
+          .microsoft {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            font-size: 12px;
+            h2 {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+  
