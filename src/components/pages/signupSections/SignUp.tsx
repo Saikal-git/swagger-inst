@@ -4,7 +4,34 @@ import instagramLogo from "../../../assets/image/Instagram Logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { ImFacebook2 } from "react-icons/im";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useSignUpMutation } from "@/redux/api/auth";
+
 const SignUp = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<SignUpReq>();
+  const [signUpMutation] = useSignUpMutation();
+
+  const onSubmit: SubmitHandler<SignUpReq> = async (data) => {
+    console.log("🚀:", data);
+    const userData: SignUpReq = {
+      email: data.email,
+      password: data.password,
+      username: data.username,
+      photo: data.photo,
+    };
+    try {
+      const { data: res, error } = await signUpMutation(userData);
+      if (error) {
+        console.log(error);
+        return;
+      }
+      localStorage.setItem("tokens", JSON.stringify(res));
+      router.push("/");
+    } catch (error) {}
+  };
+
   return (
     <section className={scss.SignUp}>
       <div className="container">
@@ -12,7 +39,7 @@ const SignUp = () => {
           <div className={scss.three}>
             <div className={scss.auth}>
               <div className={scss.instagram}>
-                <Image src={instagramLogo} alt="img" />
+                <Image src={instagramLogo} alt="logo" />
               </div>
               <h4>Sign up to see your friends' photos and videos.</h4>
               <div className={scss.fecebook}>
@@ -28,48 +55,73 @@ const SignUp = () => {
                 <h1>OR</h1>
                 <div className={scss.line}></div>
               </div>
-              <form>
+              <form onClick={handleSubmit(onSubmit)}>
                 <div className={scss.form}>
-                  <input type="text" placeholder="Email" />
-                  <input type="password" placeholder="Password" />
-                  <input type="text" placeholder="First and Last Name" />
-                  <input type="text" placeholder="Username" />
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    {...register("email", {
+                      required: "Email is required",
+                    })}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    {...register("password", { required: true })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="First and Last Name"
+                    {...register("username", { required: true })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Photo"
+                    {...register("photo", { required: true })}
+                  />
                 </div>
+                <h3>
+                  People who use our service may have uploaded your contact
+                  information to Instagram.
+                  <Link
+                    href={
+                      "https://www.facebook.com/help/instagram/261704639352628"
+                    }
+                    target="blank"
+                  >
+                    More details
+                  </Link>
+                </h3>
+                <h5>
+                  By registering, you agree to our
+                  <Link
+                    href={
+                      "https://help.instagram.com/581066165581870/?locale=ru_RU"
+                    }
+                    target="blank"
+                  >
+                    Terms
+                  </Link>
+                  ,
+                  <Link
+                    href={"https://www.facebook.com/privacy/policy"}
+                    target="blank"
+                  >
+                    Privacy Policy
+                  </Link>
+                  and
+                  <Link
+                    href={
+                      "https://privacycenter.instagram.com/policies/cookies/"
+                    }
+                    target="blank"
+                  >
+                    Cookie Policy
+                  </Link>
+                  .
+                </h5>
+                <button type="submit">Register</button>
               </form>
-
-              <h3>
-                People who use our service may have uploaded your contact
-                information to Instagram.
-                <Link
-                  href={
-                    "https://www.facebook.com/help/instagram/261704639352628"
-                  }
-                >
-                  More details
-                </Link>
-              </h3>
-              <h5>
-                By registering, you agree to our
-                <Link
-                  href={
-                    "https://help.instagram.com/581066165581870/?locale=ru_RU"
-                  }
-                >
-                  Terms
-                </Link>
-                ,
-                <Link href={"https://www.facebook.com/privacy/policy"}>
-                  Privacy Policy
-                </Link>
-                and
-                <Link
-                  href={"https://privacycenter.instagram.com/policies/cookies/"}
-                >
-                  Cookie Policy
-                </Link>
-                .
-              </h5>
-              <button>Register</button>
             </div>
             <div className={scss.acaunt1}>
               <h1>
@@ -78,7 +130,6 @@ const SignUp = () => {
               </h1>
             </div>
             <h1>Install the application.</h1>
-
             <div className={scss.acaunt2}>
               <div className={scss.google_play}>
                 <span></span>

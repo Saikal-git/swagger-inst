@@ -3,7 +3,7 @@ import scss from "./SignIn.module.scss";
 import instagramLogo from "../../../assets/image/Instagram Logo.png";
 import Image from "next/image";
 import { FaFacebook } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import foto1 from "../../../assets/image/foto-1.png";
 import foto2 from "../../../assets/image/foto-2.png";
 import foto3 from "../../../assets/image/foto-3.png";
@@ -11,27 +11,49 @@ import foto4 from "../../../assets/image/foto-4.png";
 import IphoneImage from "../../../assets/image/iphoneImage.png";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useSignInMutation } from "@/redux/api/auth";
-const SignIn = () => {
+interface ISignIn {
+  email: string;
+  password: string;
+}
+
+const SignIn: FC = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<ISignIn>();
+  const [signInMutation] = useSignInMutation();
   const [photo, setPhoto] = useState(0);
   const screen = [foto1, foto2, foto3, foto4];
-  const { register, handleSubmit } = useForm<IAuthToken>();
-  const [signInMutation] = useSignInMutation();
-
-  const onSubmit: SubmitHandler<IAuthToken> = async (data) => {
-    try {
-      const result = await signInMutation(data);
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
     const interval = setInterval(() => {
       setPhoto((prevCount) => (prevCount + 1) % screen.length);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  const onSubmit: SubmitHandler<ISignIn> = async (data) => {
+    console.log("🚀 ~ constonSubmit:SubmitHandler<ISignIn>= ~ data:", data);
+    const userData: ISignIn = {
+      email: data.email,
+      password: `${data.password}`,
+    };
+    try {
+      const { data: responseSignIn, error } = await signInMutation(userData);
+      console.log(
+        "🚀 ~ constonSubmit:SubmitHandler<ISignIn>= ~ responseSignIn:",
+        responseSignIn
+      );
+      if (error) {
+        console.log("Saikal,no");
+      } else {
+        console.log(responseSignIn);
+        localStorage.setItem("tokens", JSON.stringify(responseSignIn));
+        router.push("/");
+      }
+    } catch (err) {
+      console.error(`Error Sign-in getSignInMutation ${err}`);
+    }
+  };
 
   return (
     <section className={scss.SignIn}>
@@ -50,24 +72,19 @@ const SignIn = () => {
               <div className={scss.instagram}>
                 <Image src={instagramLogo} alt="img" />
               </div>
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={scss.form}>
                   <input
                     type="text"
                     placeholder="Email"
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", { required: true })}
                   />
-
                   <input
                     type="password"
                     placeholder="Password"
-                    {...register("password", {
-                      required: "Password is required",
-                    })}
+                    {...register("password", { required: true })}
                   />
-
-                  <button type="submit" >Log in</button>
+                  <button type="submit">Log in</button>
                 </div>
               </form>
               <div className={scss.block}>
@@ -92,6 +109,7 @@ const SignIn = () => {
               </h1>
             </div>
             <h1>Install the application.</h1>
+
             <div className={scss.acaunt2}>
               <div className={scss.google_play}>
                 <span></span>

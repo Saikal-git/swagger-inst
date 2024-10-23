@@ -1,18 +1,10 @@
 namespace AUTH {
-  type SignInResponse = IAuthToken;
-  type SignInRequest = {
-    email: string;
-    password: string;
-  };
+  type SignInResponse = SignInRes;
+  type SignInRequest = SignInReq;
 
-  type SignUpResponse = IAuthToken;
-  type SignUpRequest = {
-    email: string;
-    password: string;
-    username: string;
-    photo: string;
-  };
+  type SignUpResponse = SignUpRes;
+  type SignUpRequest = SignUpReq;
 
-  type GetMeResponse = IUser;
+  type GetMeResponse = GetMeRes;
   type GetMeRequest = void;
 }
